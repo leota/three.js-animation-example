@@ -1,6 +1,9 @@
-import { Color, PerspectiveCamera, Scene, Vector3, WebGLRenderer, Math, HemisphereLight, BackSide, Mesh } from 'three';
+import { Color, PerspectiveCamera, Scene, Vector3, WebGLRenderer, HemisphereLight, BackSide, Mesh, Clock } from 'three';
 import { Pyramid } from './pyramid';
 import { TranslucentMaterial } from './materials';
+
+const PYRAMID_ROT_Y = 0.06;
+const PYRAMID_ROT_Z = 0.02;
 
 export class App {
     private readonly scene = new Scene();
@@ -11,11 +14,13 @@ export class App {
     });
 
     private pyramid: Pyramid;
+    private clock: Clock;
 
     constructor() {
-        this.camera.position.set(0, 0, 100);
+        this.clock = new Clock();
+        this.camera.position.set(0, 0, 200);
         this.camera.lookAt(new Vector3(0, 0, 0));
-        
+
         this.renderer.setSize(innerWidth, innerHeight);
         this.renderer.setClearColor(new Color('rgb(2,16,76)'));
 
@@ -26,7 +31,7 @@ export class App {
         // lights
         const light = new HemisphereLight(0xffffbb, 0x080820, 1);
         this.scene.add(light);
-        
+
         this.render();
     }
 
@@ -37,23 +42,32 @@ export class App {
 
         const outerPyramid = new Pyramid(20, 25, new TranslucentMaterial());
         outerPyramid.add(innrePyramid);
-        outerPyramid.rotateY(Math.degToRad(45));
 
         return outerPyramid;
     }
-    
+
     private adjustCanvasSize(): void {
         this.renderer.setSize(innerWidth, innerHeight);
         this.camera.aspect = innerWidth / innerHeight;
         this.camera.updateProjectionMatrix();
     }
-    
+
+    private playAnimations(): void {
+        const time = this.clock.getElapsedTime();
+        if (time < 5) {
+            this.pyramid.rotateY(PYRAMID_ROT_Y);
+            this.pyramid.rotateZ(PYRAMID_ROT_Z);
+        } else {
+            this.pyramid.rotateY(PYRAMID_ROT_Y / (time / 4));
+            this.pyramid.rotateZ(PYRAMID_ROT_Z / (time / 4));
+        }
+    }
+
     private render(): void {
+        this.playAnimations();
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame(() => this.render());
-        
+
         this.adjustCanvasSize();
-        this.pyramid.rotateZ(0.005);
-        this.pyramid.rotateY(0.03);
     }
 }
