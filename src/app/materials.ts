@@ -4,9 +4,9 @@ const loader = new CubeTextureLoader();
 loader.setPath('src/assets/');
 
 const cubeMap = loader.load([
-    'px.png', 'nx.png',
-    'py.png', 'ny.png',
-    'pz.png', 'nz.png'
+    'env-map.png', 'env-map.png', 
+    'env-map.png', 'env-map.png', 
+    'env-map.png', 'env-map.png', 
 ]);
 
 const MATERIAL_DEFAULT_PARAMS: MeshPhongMaterialParameters = {

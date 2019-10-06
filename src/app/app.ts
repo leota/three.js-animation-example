@@ -1,4 +1,4 @@
-import { Color, PerspectiveCamera, Scene, Vector3, WebGLRenderer, HemisphereLight, BackSide, Mesh, Clock } from 'three';
+import { Color, PerspectiveCamera, Scene, Vector3, WebGLRenderer, HemisphereLight, BackSide, Mesh, Clock, SpotLight } from 'three';
 import { Pyramid } from './pyramid';
 import { TranslucentMaterial } from './materials';
 
@@ -31,6 +31,8 @@ export class App {
         // lights
         const light = new HemisphereLight(0xffffbb, 0x080820, 1);
         this.scene.add(light);
+        const spotLight = new SpotLight(0xffffff);
+        this.camera.add(spotLight);
 
         this.render();
     }
