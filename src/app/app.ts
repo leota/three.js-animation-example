@@ -54,7 +54,6 @@ export class App {
 
     private playAnimations(): void {
         const time = this.clock.getElapsedTime();
-        console.log(time);
         if (time < 5) {
             this.pyramid.rotateY(PYRAMID_ROT_Y);
             this.pyramid.rotateZ(PYRAMID_ROT_Z);
