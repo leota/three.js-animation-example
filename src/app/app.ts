@@ -2,7 +2,7 @@ import { Color, PerspectiveCamera, Scene, Vector3, WebGLRenderer, HemisphereLigh
 import { Pyramid } from './pyramid';
 import { TranslucentMaterial } from './materials';
 
-const PYRAMID_ROT_Y = 0.06;
+const PYRAMID_ROT_Y = 0.04;
 const PYRAMID_ROT_Z = 0.02;
 
 export class App {
@@ -54,12 +54,19 @@ export class App {
 
     private playAnimations(): void {
         const time = this.clock.getElapsedTime();
+        console.log(time);
         if (time < 5) {
             this.pyramid.rotateY(PYRAMID_ROT_Y);
             this.pyramid.rotateZ(PYRAMID_ROT_Z);
-        } else {
+        } else if (time > 5 && time <= 10) {
             this.pyramid.rotateY(PYRAMID_ROT_Y / (time / 4));
             this.pyramid.rotateZ(PYRAMID_ROT_Z / (time / 4));
+            this.camera.position.x -= 0.05;
+            this.camera.position.y -= 0.01;
+            this.camera.position.z -= 0.55;
+        } else {
+            this.pyramid.rotateY(PYRAMID_ROT_Y / (time / 3));
+            this.pyramid.rotateZ(PYRAMID_ROT_Z / (time / 3));
         }
     }
 
